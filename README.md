@@ -228,6 +228,9 @@ example
 
 - other states currently not supported, coz the API is not easy to design
 
+
+### p.check\_state()
+
      /*
      > p.check_state()
      task_root[0] Promise { <resolved> }
