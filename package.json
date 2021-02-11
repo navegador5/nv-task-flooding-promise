@@ -1,6 +1,6 @@
 {
   "name": "nv-task-flooding-promise",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "flooding promise root-tree",
   "main": "index.js",
   "dependencies": {
