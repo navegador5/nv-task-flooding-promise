@@ -278,8 +278,10 @@ class FPromise {
         this.#cexec = cexec;
     }
     launch() {
-        if(this.state==="init" || ! _is_in_executing(this.#rt.$sdfs())){
+        if(!_is_in_executing(this.#rt.$sdfs())){
             let sdfs = this.#rt.$sdfs();
+            sdfs.forEach(nd=>nd[SYM_RESET]());
+            this.#p = new Promise((rs,rj)=>{this.#crs = rs;this.#crj = rj});
             sdfs.forEach(nd=>nd[SYM_READY]());
             this.#rt[SYM_EXEC]();
         } else {
@@ -329,6 +331,7 @@ class FPromise {
     }
     get controller() {return(this.#p)}
     set controller(cexec) {
+        let sdfs = this.#rt.$sdfs();
         let cond = _is_in_executing(sdfs)
         if(cond) {
             throw(ERROR_DICT.in_executing)
