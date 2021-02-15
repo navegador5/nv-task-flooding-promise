@@ -5,7 +5,6 @@ nv-task-flooding-promise
 - with original-promise if the task-tree is very big, 
 - such as 100-200 tasks,7-8 levels automation is hard
 
-
 install
 =======
 - npm install nv-task-flooding-promise 

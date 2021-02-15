@@ -6,3 +6,6 @@ node_modules/
 readme.rst
 README.rst
 DRAFT/
+webpack.config.js
+package-lock.json
+
