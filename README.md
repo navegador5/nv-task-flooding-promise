@@ -397,6 +397,27 @@ example
      */
 
 
+IN WEB BROWSER
+--------------
+- https://github.com/navegador5/nv-task-flooding-promise/blob/master/TOOL/dist/fpromise.js
+- download it(umd webpacked), copy it to your CDN
+- const {FPromise,Cfg} = window["FLOODING-PROMISE"]
+
+###
+    
+    <html>
+        <head>
+            <script
+                type="text/javascript"
+                src="./fpromise.js"
+            >
+            </script>
+            <script>
+                const {FPromise,Cfg} = window["FLOODING-PROMISE"]
+            </script>
+        </head>
+    </html>    
+
 
 METHODS
 =======
