@@ -48,7 +48,9 @@ const SYM_CONTROLLER = Symbol("controller")
 
 const SYM_RESET = Symbol("reset")
 const SYM_RESET_EXEC = Symbol("reset_exec")
-const SYM_READY = Symbol("ready")
+//with controller ,this is NOT needed
+//const SYM_READY = Symbol("ready")
+//[SYM_READY]() {this.#state = "pending"}
 
 const SYM_IMPOSSIBLE = Symbol("impossible")
 const SYM_SET_IMPOSSIBLE = Symbol("set_impossible")
@@ -130,7 +132,6 @@ class _FPromise extends Root {
     }
     get [SYM_CONTROLLER]() {return(this.#controller)}
     get [SYM_PROMISE]() {return(this.#p)}
-    [SYM_READY]() {this.#state = "pending"}
     [SYM_RESET_EXEC] (f) {this.#exec = f}
     [SYM_RESET]() {
         this.#p = new Promise((rs,rj)=>{this.#rs = rs;this.#rj = rj});
@@ -159,7 +160,8 @@ class _FPromise extends Root {
     finally(f) {this.#p.finally(f)}
     get [SYM_TASK_NAME] () {return(this.#tag===""?this.#exec.name:this.#tag)}
     [SYM_EXEC]() {
-        if(this.#state === 'pending') {
+        if(this.#state === 'init') {
+            this.#state = 'pending';
             this.#exec(this.#rs,this.#rj,this);
             this.#p.then(
                 r=>{
@@ -177,6 +179,7 @@ class _FPromise extends Root {
                 }
             )
         } else {
+            //pending,resolved,rejected,impossible
         }
     }
     get rslt() {
@@ -282,7 +285,6 @@ class FPromise {
             let sdfs = this.#rt.$sdfs();
             sdfs.forEach(nd=>nd[SYM_RESET]());
             this.#p = new Promise((rs,rj)=>{this.#crs = rs;this.#crj = rj});
-            sdfs.forEach(nd=>nd[SYM_READY]());
             this.#rt[SYM_EXEC]();
         } else {
             throw(ERROR_DICT.need_reset);
@@ -324,7 +326,7 @@ class FPromise {
     [Symbol.iterator]() { return(this.#rt.$sdfs()[Symbol.iterator]())}
     [SYM_RECV_FROM](src,data) {
         let sdfs = this.#rt.$sdfs();
-        let lefted = sdfs.filter(r=>r.state==="pending");
+        let lefted = sdfs.filter(r=>(r.state==="pending") ||(r.state==="init"));
         if(lefted.length === 0) {
             this.#cexec(this.#crs,this.#crj,sdfs);
         }
