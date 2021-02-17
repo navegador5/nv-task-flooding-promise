@@ -208,7 +208,7 @@ class _FPromise extends Root {
         }
     }
     get state() {return(this.#state)}
-    is_settled() {return(this.#state !== "pending")}
+    is_settled() {return(this.#state !== "pending" && this.#state !== "init")}
     is_pending() {return(this.#state === "pending")}
     is_resolved() {return(this.#state === "resolved")}
     is_rejected() {return(this.#state === "rejected")}
